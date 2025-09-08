@@ -1,0 +1,21 @@
+{
+  "total_emails_24h": 5,
+  "emails_by_sentiment": {
+    "Negative": 2,
+    "Positive": 2,
+    "Neutral": 1
+  },
+  "emails_by_priority": {
+    "Not urgent": 3,
+    "Urgent": 2
+  },
+  "emails_by_category": {
+    "Support": 2,
+    "Query": 1,
+    "Help": 1,
+    "Request": 1
+  },
+  "urgent_emails": 2,
+  "resolved_emails": 15,
+  "pending_emails": -5
+}

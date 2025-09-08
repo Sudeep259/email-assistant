@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI-Powered Communication Assistant</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Top Navigation -->
+        <header class="top-nav">
+            <div class="nav-brand">
+                <h1>AI-Powered Communication Assistant</h1>
+            </div>
+            <div class="nav-metrics">
+                <div class="metric-item">
+                    <span class="metric-value" id="total-emails">0</span>
+                    <span class="metric-label">Total (24h)</span>
+                </div>
+                <div class="metric-item urgent">
+                    <span class="metric-value" id="urgent-emails">0</span>
+                    <span class="metric-label">Urgent</span>
+                </div>
+                <div class="metric-item resolved">
+                    <span class="metric-value" id="resolved-emails">0</span>
+                    <span class="metric-label">Resolved</span>
+                </div>
+            </div>
+        </header>
+
+        <div class="main-content">
+            <!-- Sidebar Navigation -->
+            <nav class="sidebar">
+                <div class="nav-menu">
+                    <div class="nav-item active" data-section="dashboard">
+                        <span class="nav-icon">📊</span>
+                        <span class="nav-label">Dashboard</span>
+                    </div>
+                    <div class="nav-item" data-section="emails">
+                        <span class="nav-icon">📧</span>
+                        <span class="nav-label">Emails</span>
+                    </div>
+                    <div class="nav-item" data-section="analytics">
+                        <span class="nav-icon">📈</span>
+                        <span class="nav-label">Analytics</span>
+                    </div>
+                    <div class="nav-item" data-section="settings">
+                        <span class="nav-icon">⚙️</span>
+                        <span class="nav-label">Settings</span>
+                    </div>
+                </div>
+            </nav>
+
+            <!-- Main Content Area -->
+            <main class="content-area">
+                <!-- Dashboard Section -->
+                <section id="dashboard-section" class="section active">
+                    <div class="section-header">
+                        <h2>Dashboard Overview</h2>
+                        <div class="view-controls">
+                            <button class="btn btn--sm btn--outline" id="refresh-btn">Refresh</button>
+                        </div>
+                    </div>
+
+                    <!-- Key Metrics Cards -->
+                    <div class="metrics-grid">
+                        <div class="metric-card">
+                            <div class="metric-header">
+                                <span class="metric-icon">📧</span>
+                                <span class="metric-title">Total Emails</span>
+                            </div>
+                            <div class="metric-number" id="dashboard-total">0</div>
+                            <div class="metric-subtitle">Last 24 hours</div>
+                        </div>
+                        <div class="metric-card urgent-card">
+                            <div class="metric-header">
+                                <span class="metric-icon">🚨</span>
+                                <span class="metric-title">Urgent Emails</span>
+                            </div>
+                            <div class="metric-number" id="dashboard-urgent">0</div>
+                            <div class="metric-subtitle">Requires immediate attention</div>
+                        </div>
+                        <div class="metric-card resolved-card">
+                            <div class="metric-header">
+                                <span class="metric-icon">✅</span>
+                                <span class="metric-title">Resolved</span>
+                            </div>
+                            <div class="metric-number" id="dashboard-resolved">0</div>
+                            <div class="metric-subtitle">Successfully handled</div>
+                        </div>
+                        <div class="metric-card pending-card">
+                            <div class="metric-header">
+                                <span class="metric-icon">⏳</span>
+                                <span class="metric-title">Pending</span>
+                            </div>
+                            <div class="metric-number" id="dashboard-pending">0</div>
+                            <div class="metric-subtitle">Awaiting response</div>
+                        </div>
+                    </div>
+
+                    <!-- Priority Queue -->
+                    <div class="priority-queue">
+                        <h3>Priority Email Queue</h3>
+                        <div id="urgent-email-list" class="urgent-emails">
+                            <!-- Urgent emails will be populated here -->
+                        </div>
+                    </div>
+
+                    <!-- Recent Emails Overview -->
+                    <div class="recent-emails">
+                        <h3>Recent Emails</h3>
+                        <div id="recent-email-list" class="email-list-preview">
+                            <!-- Recent emails will be populated here -->
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Emails Section -->
+                <section id="emails-section" class="section">
+                    <div class="section-header">
+                        <h2>Email Management</h2>
+                        <div class="view-controls">
+                            <div class="search-box">
+                                <input type="text" id="email-search" class="form-control" placeholder="Search emails...">
+                            </div>
+                            <div class="filter-controls">
+                                <select id="sentiment-filter" class="form-control">
+                                    <option value="">All Sentiments</option>
+                                    <option value="Positive">Positive</option>
+                                    <option value="Negative">Negative</option>
+                                    <option value="Neutral">Neutral</option>
+                                </select>
+                                <select id="priority-filter" class="form-control">
+                                    <option value="">All Priorities</option>
+                                    <option value="Urgent">Urgent</option>
+                                    <option value="Not urgent">Not urgent</option>
+                                </select>
+                            </div>
+                            <button class="btn btn--sm btn--outline" id="toggle-view">Card View</button>
+                        </div>
+                    </div>
+
+                    <!-- Email List -->
+                    <div class="email-container">
+                        <div id="email-list" class="email-list">
+                            <!-- Emails will be populated here -->
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Analytics Section -->
+                <section id="analytics-section" class="section">
+                    <div class="section-header">
+                        <h2>Analytics & Reports</h2>
+                    </div>
+
+                    <div class="analytics-grid">
+                        <!-- Sentiment Distribution -->
+                        <div class="chart-container">
+                            <h4>Sentiment Distribution</h4>
+                            <div class="chart-wrapper" style="position: relative; height: 300px;">
+                                <canvas id="sentiment-chart"></canvas>
+                            </div>
+                        </div>
+
+                        <!-- Priority Distribution -->
+                        <div class="chart-container">
+                            <h4>Priority Distribution</h4>
+                            <div class="chart-wrapper" style="position: relative; height: 300px;">
+                                <canvas id="priority-chart"></canvas>
+                            </div>
+                        </div>
+
+                        <!-- Category Distribution -->
+                        <div class="chart-container full-width">
+                            <h4>Category Breakdown</h4>
+                            <div class="chart-wrapper" style="position: relative; height: 300px;">
+                                <canvas id="category-chart"></canvas>
+                            </div>
+                        </div>
+
+                        <!-- Generated Chart Image -->
+                        <div class="chart-container full-width">
+                            <h4>Email Analytics Overview</h4>
+                            <img src="https://ppl-ai-code-interpreter-files.s3.amazonaws.com/web/direct-files/3478c158490cf01ecf3bec974770c401/73a9f9b4-42a1-4ca8-ad13-882aa93c1c68/b2aca989.png" alt="Email Analytics Dashboard" class="analytics-image">
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Settings Section -->
+                <section id="settings-section" class="section">
+                    <div class="section-header">
+                        <h2>Settings</h2>
+                    </div>
+                    <div class="settings-content">
+                        <div class="card">
+                            <div class="card__body">
+                                <h4>Email Configuration</h4>
+                                <div class="form-group">
+                                    <label class="form-label">Email Provider</label>
+                                    <select class="form-control">
+                                        <option>Gmail API</option>
+                                        <option>Outlook Graph API</option>
+                                        <option>IMAP</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Auto-Response</label>
+                                    <select class="form-control">
+                                        <option>Enabled</option>
+                                        <option>Disabled</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+
+    <!-- Email Detail Modal -->
+    <div id="email-modal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modal-subject">Email Subject</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="email-meta">
+                    <div class="meta-item">
+                        <strong>From:</strong> <span id="modal-sender"></span>
+                    </div>
+                    <div class="meta-item">
+                        <strong>Date:</strong> <span id="modal-date"></span>
+                    </div>
+                    <div class="meta-item">
+                        <strong>Sentiment:</strong> <span id="modal-sentiment" class="status"></span>
+                    </div>
+                    <div class="meta-item">
+                        <strong>Priority:</strong> <span id="modal-priority" class="status"></span>
+                    </div>
+                </div>
+
+                <div class="email-content">
+                    <h4>Email Body</h4>
+                    <div id="modal-body" class="email-body-content"></div>
+                </div>
+
+                <div class="keywords-section">
+                    <h4>Extracted Keywords</h4>
+                    <div id="modal-keywords" class="keywords-list"></div>
+                </div>
+
+                <div class="ai-response-section">
+                    <h4>AI-Generated Response</h4>
+                    <textarea id="ai-response-text" class="form-control ai-response-textarea"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn--outline" id="mark-resolved">Mark as Resolved</button>
+                <button class="btn btn--secondary" id="edit-response">Edit Response</button>
+                <button class="btn btn--primary" id="send-response">Send Response</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
